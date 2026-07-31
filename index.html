@@ -11,6 +11,43 @@
 </head>
 
 <body>
+    <!-- Portfolio 2.0 Announcement Modal -->
+    <div id="portfolio-announcement-modal" class="p2-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc" tabindex="-1">
+        <div class="p2-modal-box">
+            <div class="p2-modal-header">
+                <span class="p2-emoji" aria-hidden="true">🚀</span>
+                <h2 id="modal-title">Portfolio Updated!</h2>
+            </div>
+            <p class="p2-modal-welcome">Thanks for visiting my portfolio.</p>
+            <p class="p2-modal-subwelcome">You're currently viewing Portfolio 1.0.</p>
+            <div class="p2-modal-features">
+                <p id="modal-desc" class="p2-features-title">A newer version (Portfolio 2.0) is available with:</p>
+                <ul>
+                    <li><span>•</span> Modern UI & UX</li>
+                    <li><span>•</span> More Projects</li>
+                    <li><span>•</span> Better Performance</li>
+                    <li><span>•</span> Latest Skills & Experience</li>
+                </ul>
+            </div>
+            <p class="p2-modal-question">Would you like to visit it now?</p>
+            <div class="p2-modal-actions">
+                <a href="https://new-portfolio-cyan-xi.vercel.app/" id="btn-visit-modal" class="p2-btn p2-btn-primary">Visit Portfolio 2.0</a>
+                <button id="btn-stay-modal" class="p2-btn p2-btn-secondary">Stay Here</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio 2.0 Sticky Notification Bar -->
+    <div id="portfolio-notification-bar" class="p2-notification-bar" role="banner" aria-hidden="true">
+        <div class="p2-bar-content">
+            <span class="p2-bar-text">🚀 You're viewing Portfolio 1.0. Portfolio 2.0 is now available with new projects, improved design, and updated skills.</span>
+            <div class="p2-bar-actions">
+                <a href="https://new-portfolio-cyan-xi.vercel.app/" id="btn-visit-bar" class="p2-btn-bar-primary">Visit Portfolio 2.0</a>
+                <button id="btn-close-bar" class="p2-bar-close" aria-label="Close Announcement">&times;</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">Dinesh Kumar</div>
@@ -55,9 +92,13 @@
                     <h5 class="section-subtitle">MY INTRODUCTION</h5>
                     <h2>About Me</h2>
                     <p>
-                        I’m Dinesh Kumar S, B.Tech IT student from Tamil Nadu with a passion for building efficient and user-friendly web applications.
-                        Skilled in Python, Django, HTML, CSS, and Java, I have hands-on experience through projects and internships, including developing a budget tracker application during my Infosys Springboard internship. I focus on clean UI, scalable backend systems.
-                        I’m eager to grow in a tech-driven team, work on innovative projects, and continuously expand my skills in web development and emerging technologies.
+                        I’m Dinesh Kumar S, B.Tech IT student from Tamil Nadu with a passion for building efficient and
+                        user-friendly web applications.
+                        Skilled in Python, Django, HTML, CSS, and Java, I have hands-on experience through projects and
+                        internships, including developing a budget tracker application during my Infosys Springboard
+                        internship. I focus on clean UI, scalable backend systems.
+                        I’m eager to grow in a tech-driven team, work on innovative projects, and continuously expand my
+                        skills in web development and emerging technologies.
                     </p>
 
                     <p><em>“Code is my tool, projects are my canvas, and innovation is my goal.”</em></p>
@@ -88,7 +129,7 @@
             <div class="skills-track">
                 <!-- Skill Cards x2 for seamless loop -->
                 <!-- 1st Set -->
-                 
+
                 <div class="skill-card">
                     <img src="./assets/html.png" class="skill-icon" alt="HTML" />
                     <h4>HTML</h4>
@@ -124,9 +165,9 @@
                     <h4>GitHub</h4>
                     <div class="level-label">70%</div>
                 </div>
-                 
+
                 <!-- Duplicate set -->
-                 <div class="skill-card">
+                <div class="skill-card">
                     <img src="./assets/html.png" class="skill-icon" alt="HTML" />
                     <h4>HTML</h4>
                     <div class="level-label">50%</div>
@@ -161,7 +202,7 @@
                     <h4>GitHub</h4>
                     <div class="level-label">70%</div>
                 </div>
-                
+
                 <div class="skill-card">
                     <img src="./assets/html.png" class="skill-icon" alt="HTML" />
                     <h4>HTML</h4>
@@ -338,6 +379,140 @@
                     alert("Failed to send email.");
                 });
         }
+    </script>
+
+    <!-- Portfolio 2.0 Announcement System Logic -->
+    <script>
+        (function() {
+            const modal = document.getElementById('portfolio-announcement-modal');
+            const bar = document.getElementById('portfolio-notification-bar');
+
+            // Selectors for buttons
+            const btnStayModal = document.getElementById('btn-stay-modal');
+            const btnCloseBar = document.getElementById('btn-close-bar');
+
+            // Modal actions - Stay Here
+            if (btnStayModal) btnStayModal.addEventListener('click', function() {
+                closeModalAndShowBanner();
+            });
+
+            // Click outside modal box closes modal and shows banner
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeModalAndShowBanner();
+                    }
+                });
+            }
+
+            // Close banner manually
+            if (btnCloseBar) btnCloseBar.addEventListener('click', function() {
+                hideNotificationBar();
+            });
+
+            function adjustLayout() {
+                if (bar && bar.style.display === 'block') {
+                    const height = bar.offsetHeight;
+                    document.documentElement.style.setProperty('--notification-bar-height', height + 'px');
+                    document.body.classList.add('has-p2-bar');
+                } else {
+                    document.body.classList.remove('has-p2-bar');
+                }
+            }
+
+            window.addEventListener('resize', adjustLayout);
+
+            function showNotificationBar() {
+                if (bar) {
+                    bar.style.display = 'block';
+                    bar.setAttribute('aria-hidden', 'false');
+                    setTimeout(adjustLayout, 50);
+                }
+            }
+
+            function hideNotificationBar() {
+                if (bar) {
+                    bar.style.display = 'none';
+                    bar.setAttribute('aria-hidden', 'true');
+                    adjustLayout();
+                }
+            }
+
+            // Modal Open / Close logic
+            let previousActiveElement = null;
+
+            function openModal() {
+                if (modal) {
+                    previousActiveElement = document.activeElement;
+                    modal.style.display = 'flex';
+                    // Force reflow
+                    modal.offsetHeight;
+                    modal.classList.add('active');
+                    document.body.classList.add('p2-modal-open');
+                    
+                    // Accessibility focus trap & first item focus
+                    const focusable = modal.querySelectorAll('a, button');
+                    if (focusable.length > 0) {
+                        focusable[0].focus();
+                    }
+
+                    modal.addEventListener('keydown', trapFocus);
+                }
+            }
+
+            function closeModalAndShowBanner() {
+                if (modal && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    document.body.classList.remove('p2-modal-open');
+                    modal.removeEventListener('keydown', trapFocus);
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 400);
+                    if (previousActiveElement) {
+                        previousActiveElement.focus();
+                    }
+                    showNotificationBar();
+                }
+            }
+
+            function trapFocus(e) {
+                if (e.key === 'Tab') {
+                    const focusable = modal.querySelectorAll('a, button');
+                    const first = focusable[0];
+                    const last = focusable[focusable.length - 1];
+
+                    if (e.shiftKey) {
+                        if (document.activeElement === first) {
+                            last.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === last) {
+                            first.focus();
+                            e.preventDefault();
+                        }
+                    }
+                }
+            }
+
+            // Keyboard navigation for closing modal (Escape key)
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+                    closeModalAndShowBanner();
+                }
+            });
+
+            // Initial check: Always show modal on load
+            function init() {
+                openModal();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
     </script>
 </body>
 
